@@ -5,26 +5,26 @@
 
 class Place:
     
-    TOTAL_FREE_PLACES = 0
+    NUMBER_FREE_PLACES = 0
 
     def __init__(self, type_of_place, short_label, available_list = []):
         self.type_of_place = type_of_place
         self.short_label = short_label
         self.free = True
         self.available_list = available_list
+        self.vehicle = None
        
     @classmethod
-    def add_total_free_places(cls):
-        cls.TOTAL_FREE_PLACES += 1
+    def add_number_free_places(cls):
+        cls.NUMBER_FREE_PLACES += 1
        
     @classmethod
-    def reduce_total_free_places(cls):
-        cls.TOTAL_FREE_PLACES -= 1
+    def reduce_number_free_places(cls):
+        cls.NUMBER_FREE_PLACES -= 1
 
     @classmethod
-    def get_total_free_places(cls):
-        return cls.TOTAL_FREE_PLACES
-
+    def get_number_free_places(cls):
+        return cls.NUMBER_FREE_PLACES
 
     def check_availability(self, vehicle):
         return vehicle.vehicle_type in self.available_list
@@ -35,20 +35,26 @@ class Place:
     def set_free(self, new_status):
         self.free = new_status
 
+    def set_vehicle(self, vehicle):
+        self.vehicle = vehicle
+        self.__class__.reduce_number_free_places()
+
+    def del_vehicle(self):
+        self.vehicle = None
+        self.__class__.add_number_free_places()
+
     def __repr__(self):
         return self.short_label
 
 
 class Mini_place(Place):
     # тільки для мотоциклів
-    TOTAL_FREE_PLACES = 0
     def __init__(self):
         super().__init__("mini_place", "S", ["motorcycle", ])
 
 
 class Compact_place(Place):
     # для мотоциклів та автомобілів
-    TOTAL_FREE_PLACES = 0
     def __init__(self):
         super().__init__("compact_place", "M", ["motorcycle", "car"])
 
@@ -56,7 +62,6 @@ class Compact_place(Place):
 class Large_place(Place):
     # для мотоциклів та автомобілів
     # для автобуса потрібно 5 штук
-    TOTAL_FREE_PLACES = 0
     def __init__(self):
         super().__init__("large_place", "L", ["motorcycle", "car", "bus"])
 
