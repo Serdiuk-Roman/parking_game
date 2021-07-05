@@ -15,12 +15,12 @@ class Place:
         self.vehicle = None
        
     @classmethod
-    def add_number_free_places(cls):
-        cls.NUMBER_FREE_PLACES += 1
+    def add_number_free_places(cls, number=1):
+        cls.NUMBER_FREE_PLACES += number
        
     @classmethod
-    def reduce_number_free_places(cls):
-        cls.NUMBER_FREE_PLACES -= 1
+    def reduce_number_free_places(cls, number=1):
+        cls.NUMBER_FREE_PLACES -= number
 
     @classmethod
     def get_number_free_places(cls):
@@ -37,11 +37,11 @@ class Place:
 
     def set_vehicle(self, vehicle):
         self.vehicle = vehicle
-        self.__class__.reduce_number_free_places()
+        self.__class__.reduce_number_free_places(vehicle.size)
 
     def del_vehicle(self):
         self.vehicle = None
-        self.__class__.add_number_free_places()
+        self.__class__.add_number_free_places(vehicle.size)
 
     def __repr__(self):
         return self.short_label

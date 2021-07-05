@@ -44,19 +44,29 @@ class Parking:
             print(row)
 
     def check_availability(self, vehicle):
-        for row in self.fields:
-            counter = 0
-            for cell in row:
-                if cell.is_free() and cell.check_availability()
-                counter += 1
-                if counter => vehicle.size:
+        if isinstance(vehicle, Bus):
+            for row in self.field:
+                counter = 0
+                for cell in row:
+                    if cell.is_free() and cell.check_availability(vehicle):
+                        counter += 1
+                    if counter >= vehicle.size:
+                        index = row.index(cell) + 1 - vehicle.size
+                        row[index].set_vehicle(vehicle)
+                        for i in range(vehicle.size):
+                            row[index + i].set_free(False)
+                        break
+
+        else:
+            for row in self.field:
+                for cell in row:
+                    if cell.is_free() and cell.check_availability():
+                        pass
+
 
 
 
     def counter_of_vehicles(self):
-        pass
-
-    def check_availability(self, vehicle):
         pass
 
     def show_message(self):
@@ -67,9 +77,13 @@ class Parking:
 if __name__ == "__main__":
     p = Parking()
     p.gen_field()
-    c = Car()
+    # c = Car()
     d = Motorcycle()
-    p.field[1][2].set_vehicle(c)
-    p.field[0][0].set_vehicle(d)
+    b = Bus()
+    print(b)
+    p.check_availability(b)
+
+    # p.field[1][2].set_vehicle(c)
+    # p.field[0][0].set_vehicle(d)
     p.show_field()
-    p.counter_of_free_places()
+    # p.counter_of_free_places()
